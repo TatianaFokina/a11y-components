@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <title>Всплывающая подсказка, тултип — Доступные компоненты</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap">
+  <style>
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      color: #DEDEDE;
+      font-size: 19px;
+      font-family: "Roboto", sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      padding: 50px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background-color: #18191C;
+    }
+
+    h1 {
+      margin-bottom: 17px;
+      font-weight: 500;
+      font-size: 1.625rem;
+    }
+
+    h2 {
+      margin-top: 40px;
+      margin-bottom: 17px;
+      font-weight: 500;
+      font-size: 1.375rem;
+    }
+
+    p {
+      margin: 7px 0;
+      font-size: 1rem;
+      line-height: 1.4;
+    }
+
+    a {
+      border-radius: 3px;
+      color: inherit;
+      -webkit-text-decoration-color: #10F3AF;
+      text-decoration-color: #10F3AF;
+      text-decoration-thickness: 2px;
+      transition: background-color 0.2s linear;
+    }
+
+    a:hover, a:focus {
+      color: #000000;
+      background-color: #10F3AF;
+      transition: background-color 0.2s linear;
+      outline-width: 0;
+    }
+
+    ul {
+      list-style-type: none;
+    }
+
+    li {
+      position: relative;
+      padding-left: 25px;
+      font-size: 1rem;
+      text-transform: lowercase;
+    }
+
+    li::before {
+      content: "";
+      position: absolute;
+      top: 5px;
+      left: 0;
+      width: 14px;
+      height: 14px;
+      background: #10F3AF;
+    }
+
+    li::after {
+     content: ";";
+    }
+
+    li:last-of-type::after {
+      content: ".";
+    }
+
+    hr {
+      margin: 90px 0;
+      border: none;
+    }
+
+    hr::before {
+      content: "";
+      display: block;
+      width: 100%;
+      height: 2px;
+      background: #DEDEDE;
+    }
+
+    .container {
+      max-width: 800px;
+    }
+
+    .container__example {
+      display: flex;
+      justify-content: center;
+    }
+
+    .container__example-tooltip {
+      display: inline-block;
+      position: relative;
+    }
+
+    .button {
+      display: block;
+      min-width: 210px;
+      border: 2px solid transparent;
+      border-radius: 6px;
+      padding: 9px 15px;
+      color: #000000;
+      font-size: 18px;
+      font-weight: 300;
+      font-family: inherit;
+      transition: background-color 0.2s linear;
+    }
+
+    .button:hover {
+      background-color: #FFFFFF;
+      cursor: pointer;
+      transition: background-color 0.2s linear;
+    }
+
+    .button:focus-visible {
+      border: 2px solid #FFFFFF;
+      outline: none;
+    }
+
+    .button:focus {
+      border: 2px solid #FFFFFF;
+      outline: none;
+    }
+
+    .button-aqua {
+      background-color: #10F3AF;
+    }
+
+    .visually-hidden {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      clip: rect(0 0 0 0);
+      clip-path: inset(50%);
+      overflow: hidden;
+      white-space: nowrap;
+    }
+
+    .tooltip {
+      position: absolute;
+      bottom: calc(100% + 15px);
+      left: 50%;
+      padding: 10px 40px;
+      background-color: #FFFFFF;
+      color: #000000;
+      font-size: calc(1rem - 2px);
+      text-align: left;
+      transform: translateX(-50%);
+      visibility: hidden;
+      opacity: 0;
+      transition: opacity 0.2s, visibility 0.2s;
+    }
+
+    .button:hover ~ .tooltip {
+      visibility: visible;
+      opacity: 1;
+    }
+
+    @media (max-width: 768px) {
+      body {
+        padding: 30px;
+      }
+    }
+
+    @media (prefers-reduced-motion) {
+      .tooltip,
+      .button:hover,
+      a, a:hover, a:focus {
+        transition: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Всплывающая подсказка или тултип 💬</h1>
+    <h2>Что это</h2>
+    <p>Короткая подсказка к интерактивному элементу с дополнительной информацией о его функциях. Появляется при клике на элемент и при взаимодействии с ним с клавиатуры.</p>
+    <h2>Что с мобильными устройствами</h2>
+    <p>Если что-то отрывается при касании, то это не тултип, а попап. С точки зрения UX (User Experience) и дизайна тултипы могут быть только в десктопных интерфейсах.</p>
+    <h2>Когда пригодится</h2>
+    <ul>
+      <li>У элемента нет подписи, только иконка</li>
+      <li>Нужно чуть подробнее объяснить функцию</li>
+    </ul>
+    <h2>Дизайн</h2>
+    <ul>
+      <li>Тултипы могут быть у любых интерактивных элементов</li>
+      <li>Короткий текст c дополнительным объяснением или описыванием конкретного элемента — микротекст</li>
+      <li>Появляются, когда пользователь повзаимодействовал с элементом, не сами по себе</li>
+      <li>Использовали тултип для одного элемента, не забудьте добавить ко всем похожим</li>
+      <li>Если тултипов много, поможет стрелка: так проще определить, к какому элементу относится тултип</li>
+    </ul>
+    <h2>Код</h2>
+    <ul>
+      <li>Программно связан с главным элементом с помощью <code>aria-describedby</code></li>
+      <li>Можно добавить роль <code>tooltip</code>, но не обязательно</li>
+      <li>Показывать при событиях <code>focus</code> и <code>mouseenter</code>, закрывать при событиях <code>blur</code> и <code>mouseleave</code> и нажатии на <kbd>Esc</kbd></li>
+    </ul>
+    <h2>Важные замечания</h2>
+    <ul>
+      <li>Элемент с ролью <code>tooltip</code> можно связать только с элементом, который описывает тултип</li>
+      <li>У роли <code>tooltip</code> плохая поддержка</li>
+      <li>В <code>aria-describedby</code> может быть только текст</li>
+    </ul>
+    <h2>Полезные ссылки</h2>
+      <ul>
+        <li lang="en"><a href="https://www.w3.org/WAI/ARIA/apg/patterns/tooltip/">Tooltip Pattern</a></li>
+        <li lang="en"><a href="https://www.nngroup.com/articles/tooltip-guidelines/">Tooltip Guidelines</a></li>
+        <li lang="en"><a href="https://sarahmhigley.com/writing/tooltips-in-wcag-21/">Tooltips in the time of WCAG 2.1</a></li>
+      </ul>
+    <hr>
+    <div class="container__example">
+      <div class="container__example-tooltip">
+        <button class="button button-aqua" id="button" aria-describedby="tooltip">
+          <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" fill="none">
+            <g fill="#000" clip-path="url(#gap)">
+              <path d="M0 19c0 1.1.9 2 2 2h2.6L0 16.4V19ZM19.6 4.6l-3.2-3.2c-.8-.8-2-.8-2.8 0l-.2.2c-.4.4-.4 1 0 1.4L18 7.6c.4.4 1 .4 1.4 0l.2-.2c.8-.8.8-2 0-2.8ZM12 4.402c-.4-.4-1-.4-1.4 0l-9.1 9.1c-.5.5-.5 1.1-.1 1.5l4.6 4.6c.4.4 1 .4 1.4 0l9.1-9.1c.4-.4.4-1 0-1.4l-4.5-4.7Z"/>
+            </g>
+            <clipPath id="gap"><path fill="#fff" d="M0 0h21v21H0z"/></clipPath>
+          </svg>
+          <span class="visually-hidden">Редактировать</span>
+        </button>
+        <span class="tooltip" role="tooltip" id="tooltip">Редактировать профиль (E)</span>
+      </div>
+    </div>
+  </div>
+  <script>
+    function initTooltip() {
+      const button = document.getElementById('button')
+      const tooltip = document.getElementById('tooltip')
+
+      button.addEventListener('focus', () => {
+        showTooltip(tooltip)
+      })
+      button.addEventListener('mouseenter', () => {
+        showTooltip(tooltip)
+      })
+
+      button.addEventListener('blur', () => {
+        hideTooltip(tooltip)
+      })
+      button.addEventListener('mouseleave', () => {
+        hideTooltip(tooltip)
+      })
+
+      button.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape') {
+          hideTooltip(tooltip)
+        }
+      })
+    }
+
+    function showTooltip(tooltip) {
+      tooltip.style.visibility = 'visible'
+      tooltip.style.opacity = '1'
+    }
+
+    function hideTooltip(tooltip) {
+      tooltip.style.visibility = 'hidden'
+      tooltip.style.opacity = '0'
+    }
+
+    window.addEventListener('load', () => {
+      initTooltip(tooltip)
+    })
+  </script>
+</body>
+</html>
